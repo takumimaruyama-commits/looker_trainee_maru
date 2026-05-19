@@ -55,11 +55,6 @@ view: sales_data {
     type: count
   }
 
-  dimension: sales_comparison {
-    type: yesno
-    sql: ${TABLE}."Sales" >= 500 ;;
-  }
-
   measure: average_sales {
     type: average
     label: "平均売上金額"
