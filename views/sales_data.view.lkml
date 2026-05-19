@@ -2,13 +2,6 @@
 view: sales_data {
   sql_table_name: "DATA_SETS"."Sales_Data" ;;
 
-  # No primary key is defined for this view. In order to join this view in an Explore,
-  # define primary_key: yes on a dimension that has no repeated values.
-
-    # Here's what a typical dimension looks like in LookML.
-    # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Cost of Sales" in Explore.
-
   measure: cost_of_sales {
     type: string
     sql: ${TABLE}."Cost_of_Sales" ;;
@@ -64,7 +57,7 @@ view: sales_data {
 
   dimension: sales_comparison {
     type: yesno
-    sql: ${TABLE}."SALES" >= 500 ;;
+    sql: ${TABLE}."Sales" >= 500 ;;
   }
 
   measure: average_sales {
