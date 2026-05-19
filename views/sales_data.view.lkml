@@ -9,7 +9,7 @@ view: sales_data {
     # A dimension is a groupable field that can be used to filter query results.
     # This dimension will be called "Cost of Sales" in Explore.
 
-  dimension: cost_of_sales {
+  measure: cost_of_sales {
     type: string
     sql: ${TABLE}."Cost_of_Sales" ;;
   }
@@ -34,12 +34,12 @@ view: sales_data {
     sql: ${TABLE}."Product_ID" ;;
   }
 
-  dimension: quantity {
+  measure: quantity {
     type: string
     sql: ${TABLE}."Quantity" ;;
   }
 
-  dimension: sales {
+  measure: sales {
     type: string
     sql: ${TABLE}."Sales" ;;
   }
