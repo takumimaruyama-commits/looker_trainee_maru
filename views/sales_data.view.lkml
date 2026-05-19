@@ -1,10 +1,6 @@
 # The name of this view in Looker is "Sales Data"
 view: sales_data {
-  derived_table: {
-    sql:
-    SELECT * FROM "DATASETS"."Sales_Master"
-    WHERE "Store_Area" = {% parameter parameter_area %};;
-  }
+  sql_table_name: "DATASET"."sales_data" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
