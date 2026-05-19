@@ -54,11 +54,4 @@ view: sales_data {
   measure: count {
     type: count
   }
-
-  measure: average_sales {
-    type: average
-    label: "平均売上金額"
-    value_format: "\"￥\"#,##0"
-    sql: abs(${TABLE."Sales") ;;
-  }
 }
