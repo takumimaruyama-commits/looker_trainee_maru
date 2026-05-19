@@ -1,6 +1,6 @@
 # The name of this view in Looker is "Sales Data"
 view: sales_data {
-  sql_table_name: "DATA_SETS"."sales_data" ;;
+  sql_table_name: "DATA_SETS"."Sales_Data" ;;
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
