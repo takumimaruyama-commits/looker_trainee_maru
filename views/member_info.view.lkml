@@ -2,7 +2,7 @@
 view: member_info {
   derived_table: {
     sql:
-    SELECT * FROM "DATASET"."Member_Info"
+    SELECT * FROM "DATA_SET"."Member_Info"
     WHERE {%condition filter_birthday %} TO_DATE("Birthday", 'YYYY/MM/DD') {% endcondition %}
     ;;
   }

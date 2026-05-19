@@ -2,7 +2,7 @@
 view: store_master {
   derived_table: {
     sql:
-    SELECT * FROM "DATASETS"."Store_Master"
+    SELECT * FROM "DATA_SETS"."Store_Master"
     WHERE "Store_Area" = {%parameter parameter_area%}
     ;;
   }
