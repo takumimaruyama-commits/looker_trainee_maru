@@ -29,7 +29,7 @@ view: plot {
         SALES,
         PROFIT,
         total_sales,
-        (running_total_sales / grand_total_sales) AS cumulative_ratio,
+        (running_total_sales / grand_total_sales) AS cumulative_ratio
         CASE
           WHEN (running_total_sales / grand_total_sales) <= 0.70 THEN 'Aクラス (累積~70%)'
           WHEN (running_total_sales / grand_total_sales) <= 0.90 THEN 'Bクラス (累積70~90%)'
