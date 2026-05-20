@@ -43,17 +43,17 @@ view: plot {
   dimension: Product_id {
     type: string
     primary_key: yes
-    sql: ${TABLE}.Product_ID ;;
+    sql: ${TABLE}.PRODUCT_ID ;;
   }
 
   measure:  Sales{
     type: number
-    sql: ${TABLE}.Sales ;;
+    sql: ${TABLE}.SALES ;;
   }
 
   measure:  Profit{
     type: number
-    sql: ${TABLE}.Gross_Profit ;;
+    sql: ${TABLE}.PROFIT ;;
   }
 
   dimension: abc_rank {
