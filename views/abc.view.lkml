@@ -20,7 +20,7 @@ view: abc {
             WHEN cumulative_sales / grand_total_sales <= {% parameter a_threshold %} THEN 'A'
             WHEN cumulative_sales / grand_total_sales <= {% parameter b_threshold %} THEN 'B'
             ELSE 'C'
-        END AS abc_category
+        END AS ABC_CATEGORY
     FROM
         RankedItems
     )
@@ -46,7 +46,7 @@ view: abc {
 
    dimension: abc_category {
      type: string
-     sql: ${TABLE}.abc_category ;;
+     sql: ${TABLE}.ABC_CATEGORY ;;
    }
 
    parameter: a_threshold {
