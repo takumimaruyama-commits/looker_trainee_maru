@@ -2,7 +2,7 @@ view: abc {
   derived_table: {
     sql:WITH RankedItems AS (
     SELECT
-        "Product_ID",
+        "Product_ID" AS "PRODUCT_ID",
         SUM("Sales") AS total_sales,
         SUM(SUM("Sales")) OVER () AS grand_total_sales,
         SUM(SUM("Sales")) OVER (ORDER BY SUM("Sales") DESC ROWS UNBOUNDED PRECEDING) AS cumulative_sales
@@ -11,7 +11,7 @@ view: abc {
     ),
     ABCCategories AS (
     SELECT
-        "Product_ID",
+        PRODUCT_ID,
         total_sales,
         cumulative_sales,
         grand_total_sales,
@@ -25,7 +25,7 @@ view: abc {
         RankedItems
     )
        SELECT
-           "Product_ID" AS PRODUCT_ID,
+           PRODUCT_ID,
            total_sales
        FROM
            ABCCategories
