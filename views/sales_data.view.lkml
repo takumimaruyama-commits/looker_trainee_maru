@@ -54,4 +54,5 @@ view: sales_data {
   measure: count {
     type: count
   }
+
 }
