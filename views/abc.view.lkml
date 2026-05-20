@@ -73,7 +73,6 @@ view: abc {
   }
 
   # --- メジャー設定（可視化用） ---
-  # 【修正②】集計テーブルに対して再SUMすると数値が狂うため、type: sum から type: number に変更
   measure: sales_a {
     type: number
     label: "売上 (Aランク)"
