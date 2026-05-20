@@ -6,7 +6,7 @@ view: abc {
         SUM("Sales") AS total_sales,
         SUM(SUM("Sales")) OVER () AS grand_total_sales,
         SUM(SUM("Sales")) OVER (ORDER BY SUM("Sales") DESC ROWS UNBOUNDED PRECEDING) AS cumulative_sales
-    FROM "Sales_Data"
+    FROM "DATA_SETS"."Sales_Data"
     GROUP BY "Product_ID"
     ),
     ABCCategories AS (
