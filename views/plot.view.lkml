@@ -15,6 +15,8 @@ view: plot {
       cumulative_sales AS (
         SELECT
           product_id,
+          SALES,
+          PROFIT,
           total_sales,
           SUM(total_sales) OVER (ORDER BY total_sales DESC) AS running_total_sales,
           SUM(total_sales) OVER () AS grand_total_sales
@@ -24,6 +26,8 @@ view: plot {
       -- 累積構成比
       SELECT
         product_id,
+        SALES,
+        PROFIT,
         total_sales,
         (running_total_sales / grand_total_sales) AS cumulative_ratio,
         CASE
