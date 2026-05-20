@@ -26,7 +26,8 @@ view: abc {
     )
        SELECT
            PRODUCT_ID,
-           total_sales
+           total_sales,
+           abc_category
        FROM
            ABCCategories
        ORDER BY
