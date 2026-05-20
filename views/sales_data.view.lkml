@@ -3,7 +3,7 @@ view: sales_data {
   sql_table_name: "DATA_SETS"."Sales_Data" ;;
 
   measure: cost_of_sales {
-    type: number
+    type: sum
     sql: ${TABLE}."Cost_of_Sales" ;;
   }
 
@@ -13,7 +13,7 @@ view: sales_data {
   }
 
   measure: gross_profit {
-    type: number
+    type: sum
     sql: ${TABLE}."Gross_Profit" ;;
   }
 
@@ -28,17 +28,17 @@ view: sales_data {
   }
 
   measure: quantity {
-    type: number
+    type: sum
     sql: ${TABLE}."Quantity" ;;
   }
 
   measure: sales {
-    type: number
+    type: sum
     sql: ${TABLE}."Sales" ;;
   }
 
   dimension: sales_date {
-    type: string
+    type: date
     sql: ${TABLE}."Sales_Date" ;;
   }
 
