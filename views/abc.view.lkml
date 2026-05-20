@@ -35,9 +35,9 @@ view: abc {
    }
 
 
-   dimension: product_id {
+   dimension: Product_ID {
      type: number
-     sql: ${TABLE}.product_id ;;
+     sql: ${TABLE}.Product_ID ;;
    }
 
    dimension: total_sales {
