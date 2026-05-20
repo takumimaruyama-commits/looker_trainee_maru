@@ -4,7 +4,9 @@ view: plot {
     sql:WITH product_sales AS (
         SELECT
           Product_ID AS PRODUCT_ID,
-          SUM("Sales") AS total_sales
+          "Sales" AS SALES,
+          SUM("Sales") AS total_sales,
+          "Gross_Profit" AS PROFIT
         FROM "DATA_SETS"."Sales_Data""
         GROUP BY
           1
@@ -39,6 +41,16 @@ view: plot {
     primary_key: yes
     hidden: yes
     sql: ${TABLE}.Product_ID ;;
+  }
+
+  measure:  Sales{
+    type: number
+    sql: ${TABLE}.Sales ;;
+  }
+
+  measure:  Profit{
+    type: number
+    sql: ${TABLE}.Gross_Profit ;;
   }
 
   dimension: abc_rank {
