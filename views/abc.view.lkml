@@ -51,19 +51,35 @@ view: abc {
      sql: ${TABLE}.ABC_CATEGORY ;;
    }
 
-   parameter: a_threshold {
-     type: number
-     default_value: "70"
-     label: "Aランク閾値 (%)"
-     description: "上位何%をAランクとするかの閾値"
-   }
+   # Aランク専用の売上
 
-   parameter: b_threshold {
-     type: number
-     default_value: "90"
-     label: "Bランク閾値 (%)"
-     description: "上位何%をBランクとするかの閾値"
-   }
+  measure: sales_a {
+    type: sum
+    label: "売上 (Aランク)"
+    sql: CASE WHEN ${abc_category} = 'A' THEN ${total_sales} ELSE NULL END ;;
+  }
+
+  # Bランク専用の売上
+  measure: sales_b {
+    type: sum
+    label: "売上 (Bランク)"
+    sql: CASE WHEN ${abc_category} = 'B' THEN ${total_sales} ELSE NULL END ;;
+  }
+
+  # Cランク専用の売上
+  measure: sales_c {
+    type: sum
+    label: "売上 (Cランク)"
+    sql: CASE WHEN ${abc_category} = 'C' THEN ${total_sales} ELSE NULL END ;;
+  }
+
+  # 折れ線用に累積構成比もMeasure（単一値の抽出用）にしておくと便利です
+  measure: max_cumulative_percentage {
+    type: max
+    label: "累積構成比"
+    value_format_name: percent_1
+    sql: ${cumulative_percentage} ;;
+  }
 
   dimension: cumulative_percentage {
     type: number
