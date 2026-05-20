@@ -17,8 +17,8 @@ view: abc {
         grand_total_sales,
         cumulative_sales / grand_total_sales AS cumulative_percentage,
         CASE
-            WHEN cumulative_sales / grand_total_sales <= {% parameter a_threshold %} THEN 'A'
-            WHEN cumulative_sales / grand_total_sales <= {% parameter b_threshold %} THEN 'B'
+            WHEN cumulative_sales / grand_total_sales <= ({% parameter a_threshold %}/ 100) THEN 'A'
+            WHEN cumulative_sales / grand_total_sales <= ({% parameter b_threshold %}/ 100) THEN 'B'
             ELSE 'C'
         END AS ABC_CATEGORY
     FROM
@@ -27,7 +27,8 @@ view: abc {
        SELECT
            PRODUCT_ID,
            total_sales,
-           abc_category
+           abc_category,
+           cumulative_percentage
        FROM
            ABCCategories
        ORDER BY
@@ -63,4 +64,10 @@ view: abc {
      label: "Bランク閾値 (%)"
      description: "上位何%をBランクとするかの閾値"
    }
+
+  dimension: cumulative_percentage {
+    type: number
+    value_format_name: percent_1 # 70.0% のように表示
+    sql: ${TABLE}.cumulative_percentage ;;
+  }
 }
