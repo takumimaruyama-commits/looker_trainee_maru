@@ -25,7 +25,7 @@ view: abc {
         RankedItems
     )
        SELECT
-           "Product_ID",
+           "Product_ID" AS PRODUCT_ID,
            total_sales
        FROM
            ABCCategories
