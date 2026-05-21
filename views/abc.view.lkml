@@ -40,6 +40,7 @@ view: abc{
 
   measure: profit {
     type: sum
+    label: "利益"
     sql: ${TABLE}.profit ;;
   }
 
