@@ -3,8 +3,8 @@ view: plot{
     sql:
     WITH product_sales AS (
     SELECT
-    'Product_ID' AS PRODUCT_ID,
-    SUM('Sales') AS total_sales
+    "Product_ID" AS PRODUCT_ID,
+    SUM("Sales"") AS total_sales
     FROM
     "DATA_SETS"."Sales_Data"
     GROUP BY
@@ -43,7 +43,7 @@ view: plot{
 
   dimension: total_sales_amount {
     type: number
-    label: "製品別 総売上"
+    label: "製品別総売上"
     sql: ${TABLE}.total_sales ;;
   }
 
