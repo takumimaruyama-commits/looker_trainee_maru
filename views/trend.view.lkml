@@ -39,7 +39,7 @@ view: trend {
   measure: profit_rate {
     type: number
     sql: 1.0 * ${total_profit} / NULLIF(${total_sales}, 0) ;;
-    value_format_name: percent_1
+    value_format_name: percent_2
     label: "利益率"
   }
 }
