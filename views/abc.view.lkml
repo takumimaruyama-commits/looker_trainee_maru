@@ -37,7 +37,7 @@ view: abc{
     FROM
     ordered_sales
     INNER JOIN "DATA_SETS"."Product_Master"
-      ON product_id = "DATA_SETS"."Product_master"."Product_ID"
+      ON product_id = "DATA_SETS"."Product_Master"."Product_ID"
     ;;
   }
 
