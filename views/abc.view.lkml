@@ -3,7 +3,6 @@ view: abc{
     sql:
     WITH product_sales AS (
     SELECT
-    "Gross_Profit" AS profit,
     "Product_ID" AS PRODUCT_ID,
     SUM("Sales") AS total_sales
     FROM
@@ -13,7 +12,6 @@ view: abc{
     ),
     ordered_sales AS (
     SELECT
-    profit,
     PRODUCT_ID,
     total_sales,
     -- 売上の高い順に累積売上を計算
@@ -24,8 +22,8 @@ view: abc{
     product_sales
     )
     SELECT
-    profit,
     product_id,
+    "Gross_Profit" AS profit,
     total_sales,
     cumulative_sales,
     -- 累積売上比率を計算 (0.0 〜 1.0)
