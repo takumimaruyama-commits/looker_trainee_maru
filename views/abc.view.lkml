@@ -5,7 +5,7 @@ view: abc{
     SELECT
     "Product_ID" AS PRODUCT_ID,
     SUM("Sales") AS total_sales,
-    "Gross_Profit" AS profit
+    SUM("Gross_Profit") AS profit
     FROM
     "DATA_SETS"."Sales_Data"
     GROUP BY
