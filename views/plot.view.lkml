@@ -1,71 +1,75 @@
-view: plot {
-
+view: plot{
   derived_table: {
-    sql:WITH product_sales AS (
-        SELECT
-          Product_ID AS PRODUCT_ID,
-          "Sales" AS SALES,
-          SUM("Sales") AS total_sales,
-          "Gross_Profit" AS PROFIT
-        FROM "DATA_SETS"."Sales_Data""
-        GROUP BY
-          1
-      ),
-      -- 売上降順
-      cumulative_sales AS (
-        SELECT
-          product_id,
-          SALES,
-          PROFIT,
-          total_sales,
-          SUM(total_sales) OVER (ORDER BY total_sales DESC) AS running_total_sales,
-          SUM(total_sales) OVER () AS grand_total_sales
-        FROM
-          product_sales
-      )
-      -- 累積構成比
-      SELECT
-        product_id,
-        SALES,
-        PROFIT,
-        total_sales,
-        (running_total_sales / grand_total_sales) AS cumulative_ratio
-        CASE
-          WHEN (running_total_sales / grand_total_sales) <= 0.70 THEN 'Aクラス (累積~70%)'
-          WHEN (running_total_sales / grand_total_sales) <= 0.90 THEN 'Bクラス (累積70~90%)'
-          ELSE 'Cクラス (累積90%~)'
-        END AS abc_rank
-      FROM
-        cumulative_sales
+    sql:
+    WITH product_sales AS (
+    SELECT
+    'Product_ID' AS PRDUCT_ID,
+    SUM('Sales') AS total_sales
+    FROM
+    'DATA_SETS'.'Sales_Data'
+    GROUP BY
+    1
+    ),
+    ordered_sales AS (
+    SELECT
+    product_id,
+    total_sales,
+    -- 売上の高い順に累積売上を計算
+    SUM(total_sales) OVER (ORDER BY total_sales DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_sales,
+    -- 全体の総売上を計算
+    SUM(total_sales) OVER () AS grand_total_sales
+    FROM
+    product_sales
+    )
+    SELECT
+    product_id,
+    total_sales,
+    cumulative_sales,
+    -- 累積売上比率を計算 (0.0 〜 1.0)
+    SAFE_DIVIDE(cumulative_sales, grand_total_sales) AS cumulative_sales_ratio
+    FROM
+    ordered_sales
     ;;
   }
 
   dimension: Product_id {
     type: string
     primary_key: yes
-    sql: ${TABLE}.PRODUCT_ID ;;
+    hidden: yes
+    sql: ${TABLE}.product_id ;;
   }
 
-  measure:  Sales{
+  dimension: total_sales_amount {
     type: number
-    sql: ${TABLE}.SALES ;;
+    label: "製品別 総売上"
+    sql: ${TABLE}.total_sales ;;
   }
 
-  measure:  Profit{
+  dimension: cumulative_sales_ratio {
     type: number
-    sql: ${TABLE}.PROFIT ;;
-  }
-
-  dimension: abc_rank {
-    label: "ABC分析ランク（累積）"
-    type: string
-    sql: ${TABLE}.abc_rank ;;
-  }
-
-  dimension: cumulative_ratio {
-    label: "累積構成比"
-    type: number
+    label: "累積売上比率"
     value_format_name: percent_2
-    sql: ${TABLE}.cumulative_ratio ;;
+    sql: ${TABLE}.cumulative_sales_ratio ;;
+  }
+
+# ここがABC分類のコアロジックです
+  dimension: abc_class {
+    type: string
+    label: "ABC区分"
+    description: "A: 上位70%, B: 70-90%, C: 90-100%"
+    sql:
+    CASE
+    WHEN ${TABLE}.cumulative_sales_ratio <= 0.70 THEN 'A'
+    WHEN ${TABLE}.cumulative_sales_ratio <= 0.90 THEN 'B'
+    ELSE 'C'
+    END
+    ;;
+  }
+
+# --- Measures (メジャー) ---
+
+  measure: product_count {
+    type: count
+    label: "製品数"
   }
 }
