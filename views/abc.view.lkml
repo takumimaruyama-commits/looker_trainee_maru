@@ -1,103 +1,74 @@
-view: abc {
+view: abc{
   derived_table: {
-    sql: WITH RankedItems AS (
-          SELECT
-              "Product_ID" AS PRODUCT_ID,
-              SUM("Sales") AS total_sales,
-              SUM(SUM("Sales")) OVER () AS grand_total_sales,
-              SUM(SUM("Sales")) OVER (ORDER BY SUM("Sales") DESC ROWS UNBOUNDED PRECEDING) AS cumulative_sales
-          FROM "DATA_SETS"."Sales_Data"
-          GROUP BY PRODUCT_ID
-          ),
-          ABCCategories AS (
-          SELECT
-              PRODUCT_ID,
-              total_sales,
-              cumulative_sales,
-              grand_total_sales,
-              cumulative_sales / grand_total_sales AS cumulative_percentage,
-              CASE
-                  WHEN cumulative_sales / grand_total_sales <= ({% parameter a_threshold %} / 100.0) THEN 'A'
-                  WHEN cumulative_sales / grand_total_sales <= ({% parameter b_threshold %} / 100.0) THEN 'B'
-                  ELSE 'C'
-              END AS ABC_CATEGORY
-          FROM
-              RankedItems
-          )
-             SELECT
-                 PRODUCT_ID,
-                 total_sales,
-                 abc_category,
-                 cumulative_percentage
-             FROM
-                 ABCCategories ;;
+    sql:
+    WITH product_sales AS (
+    SELECT
+    "Product_ID" AS PRODUCT_ID,
+    SUM("Sales") AS total_sales
+    FROM
+    "DATA_SETS"."Sales_Data"
+    GROUP BY
+    1
+    ),
+    ordered_sales AS (
+    SELECT
+    PRODUCT_ID,
+    total_sales,
+    -- 売上の高い順に累積売上を計算
+    SUM(total_sales) OVER (ORDER BY total_sales DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_sales,
+    -- 全体の総売上を計算
+    SUM(total_sales) OVER () AS grand_total_sales
+    FROM
+    product_sales
+    )
+    SELECT
+    product_id,
+    total_sales,
+    cumulative_sales,
+    -- 累積売上比率を計算 (0.0 〜 1.0)
+    CASE
+      WHEN grand_total_sales = 0 THEN 0
+      ELSE cumulative_sales / grand_total_sales
+    END AS cumulative_sales_ratio
+    FROM
+    ordered_sales
+    ;;
   }
 
-  # --- パラメータ設定 ---
-  parameter: a_threshold {
-    type: number
-    default_value: "70"
-    label: "Aランク閾値 (%)"
-    description: "上位何%をAランクとするかの閾値"
+  dimension: Product_id {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}.product_id ;;
   }
 
-  parameter: b_threshold {
-    type: number
-    default_value: "90"
-    label: "Bランク閾値 (%)"
-    description: "上位何%をBランクとするかの閾値"
-  }
-
-  # --- ディメンション設定 ---
-  dimension: product_id {
-    type: number
-    primary_key: yes # ← 【修正①】行の一意性を保証し、並び順を安定させます
-    sql: ${TABLE}.PRODUCT_ID ;;
-  }
-
-  dimension: total_sales {
-    type: number
-    hidden: yes # Exploreで直接選ばせない（下のMeasureを使わせるため）
+  measure: total_sales_amount {
+    type: sum
+    label: "製品別総売上"
     sql: ${TABLE}.total_sales ;;
   }
 
-  dimension: abc_category {
+  measure: cumulative_sales_ratio {
+    type: sum
+    label: "累積売上比率"
+    value_format_name: percent_2
+    sql: ${TABLE}.cumulative_sales_ratio ;;
+  }
+
+  dimension: abc_class {
     type: string
-    sql: ${TABLE}.ABC_CATEGORY ;;
+    label: "ABC区分"
+    description: "A: 上位70%, B: 70-90%, C: 90-100%"
+    sql:
+    CASE
+    WHEN ${TABLE}.cumulative_sales_ratio <= 0.70 THEN 'A'
+    WHEN ${TABLE}.cumulative_sales_ratio <= 0.90 THEN 'B'
+    ELSE 'C'
+    END
+    ;;
   }
 
-  dimension: cumulative_percentage {
-    type: number
-    hidden: yes # Exploreで直接選ばせない（下のMeasureを使わせるため）
-    sql: ${TABLE}.cumulative_percentage ;;
-  }
-
-  # --- メジャー設定（可視化用） ---
-  measure: sales_a {
-    type: number
-    label: "売上 (Aランク)"
-    value_format_name: usd_0 # 必要に応じて jpy_0 などに変更してください
-    sql: SUM(CASE WHEN ${abc_category} = 'A' THEN ${total_sales} ELSE NULL END) ;;
-  }
-
-  measure: sales_b {
-    type: number
-    label: "売上 (Bランク)"
-    value_format_name: usd_0
-    sql: SUM(CASE WHEN ${abc_category} = 'B' THEN ${total_sales} ELSE NULL END) ;;
-  }
-
-  measure: sales_c {
-    type: number
-    label: "売上 (Cランク)"
-    value_format_name: usd_0
-    sql: SUM(CASE WHEN ${abc_category} = 'C' THEN ${total_sales} ELSE NULL END) ;;
-  }
-
-  measure: max_cumulative_percentage {
-    type: number
-    label: "累積構成比"
-    value_format_name: percent_1
-    sql: MAX(${cumulative_percentage}) ;;
+  measure: product_count {
+    type: count
+    label: "製品数"
   }
 }
