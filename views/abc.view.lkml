@@ -83,4 +83,11 @@ view: abc{
     type: string
     sql: ${TABLE}.product_name ;;
   }
+
+  measure: profit_rate {
+    type: number
+    sql: 1.0 * ${TABLE}.total_profit / NULLIF(${TABLE}.total_sales, 0) ;;
+    value_format_name: percent_2
+    label: "利益率"
+  }
 }
