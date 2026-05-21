@@ -4,7 +4,8 @@ view: abc{
     WITH product_sales AS (
     SELECT
     "Product_ID" AS PRODUCT_ID,
-    SUM("Sales") AS total_sales
+    SUM("Sales") AS total_sales,
+    "Gross_Profit" AS profit
     FROM
     "DATA_SETS"."Sales_Data"
     GROUP BY
@@ -14,6 +15,7 @@ view: abc{
     SELECT
     PRODUCT_ID,
     total_sales,
+    profit,
     -- 売上の高い順に累積売上を計算
     SUM(total_sales) OVER (ORDER BY total_sales DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_sales,
     -- 全体の総売上を計算
@@ -23,7 +25,7 @@ view: abc{
     )
     SELECT
     product_id,
-    "Gross_Profit" AS profit,
+    profit,
     total_sales,
     cumulative_sales,
     -- 累積売上比率を計算 (0.0 〜 1.0)
