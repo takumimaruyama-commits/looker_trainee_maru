@@ -38,11 +38,11 @@ view: abc{
     ;;
   }
 
-  dimension: Profit {
+  dimension: profit_ {
     type: number
   }
 
-  dimension: Sales {
+  dimension: sales_ {
     type: number
   }
 
