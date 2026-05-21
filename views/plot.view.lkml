@@ -4,7 +4,7 @@ view: plot{
     WITH product_sales AS (
     SELECT
     "Product_ID" AS PRODUCT_ID,
-    SUM("Sales"") AS total_sales
+    SUM("Sales") AS total_sales
     FROM
     "DATA_SETS"."Sales_Data"
     GROUP BY
