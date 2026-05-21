@@ -35,7 +35,6 @@ view: plot{
   dimension: Product_id {
     type: string
     primary_key: yes
-    hidden: yes
     sql: ${TABLE}.product_id ;;
   }
 
