@@ -41,20 +41,19 @@ view: plot{
     sql: ${TABLE}.product_id ;;
   }
 
-  dimension: total_sales_amount {
+  measure: total_sales_amount {
     type: number
     label: "製品別総売上"
     sql: ${TABLE}.total_sales ;;
   }
 
-  dimension: cumulative_sales_ratio {
+  measure: cumulative_sales_ratio {
     type: number
     label: "累積売上比率"
     value_format_name: percent_2
     sql: ${TABLE}.cumulative_sales_ratio ;;
   }
 
-# ここがABC分類のコアロジックです
   dimension: abc_class {
     type: string
     label: "ABC区分"
@@ -67,8 +66,6 @@ view: plot{
     END
     ;;
   }
-
-# --- Measures (メジャー) ---
 
   measure: product_count {
     type: count
