@@ -26,7 +26,10 @@ view: plot{
     total_sales,
     cumulative_sales,
     -- 累積売上比率を計算 (0.0 〜 1.0)
-    SAFE_DIVIDE(cumulative_sales, grand_total_sales) AS cumulative_sales_ratio
+    CASE
+      WHEN grand_total_sales = 0 THEN 0
+      ELSE cumulative_sales / grand_total_sales
+    END AS cumulative_sales_ratio
     FROM
     ordered_sales
     ;;
