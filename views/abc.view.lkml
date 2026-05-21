@@ -60,8 +60,8 @@ view: abc{
     description: "A: 上位70%, B: 70-90%, C: 90-100%"
     sql:
     CASE
-    WHEN ${TABLE}.cumulative_sales_ratio <= 0.70 THEN 'A'
-    WHEN ${TABLE}.cumulative_sales_ratio <= 0.90 THEN 'B'
+    WHEN ${TABLE}.cumulative_sales_ratio <= 0.20 THEN 'A'
+    WHEN ${TABLE}.cumulative_sales_ratio <= 0.40 THEN 'B'
     ELSE 'C'
     END
     ;;
