@@ -3,7 +3,7 @@ view: plot{
     sql:
     WITH product_sales AS (
     SELECT
-    'Product_ID' AS PRDUCT_ID,
+    'Product_ID' AS PRODUCT_ID,
     SUM('Sales') AS total_sales
     FROM
     "DATA_SETS"."Sales_Data"
@@ -12,7 +12,7 @@ view: plot{
     ),
     ordered_sales AS (
     SELECT
-    product_id,
+    PRODUCT_ID,
     total_sales,
     -- 売上の高い順に累積売上を計算
     SUM(total_sales) OVER (ORDER BY total_sales DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_sales,
