@@ -48,7 +48,7 @@ view: plot{
   }
 
   measure: cumulative_sales_ratio {
-    type: number
+    type: sum
     label: "累積売上比率"
     value_format_name: percent_2
     sql: ${TABLE}.cumulative_sales_ratio ;;
