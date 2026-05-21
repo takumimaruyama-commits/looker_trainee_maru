@@ -39,7 +39,7 @@ view: sales_data {
 
   dimension: sales_date {
     type: date
-    sql: ${TABLE}."Sales_Date" ;;
+    sql: PARSE_DATE('%Y/%m/%d', ${TABLE}."Sales_Date") ;;
   }
 
   dimension: store_id {
