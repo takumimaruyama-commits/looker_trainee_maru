@@ -38,14 +38,6 @@ view: abc{
     ;;
   }
 
-  dimension: profit_ {
-    type: number
-  }
-
-  dimension: sales_ {
-    type: number
-  }
-
   measure: profit {
     type: sum
     sql: ${TABLE}.profit ;;
