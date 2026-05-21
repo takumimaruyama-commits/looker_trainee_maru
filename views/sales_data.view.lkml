@@ -42,17 +42,10 @@ view: sales_data {
     sql: TO_DATE(${TABLE}."Sales_Date", 'YYYY/M/D') ;;
   }
 
-  dimension: store_id {
-    type: number
-    sql: ${TABLE}."Store_ID" ;;
+  measure: profit_per {
+    type: sum
+    sql: "Grpss_Profit" / "Sales" ;;
   }
 
-  dimension: voucher_number {
-    type: string
-    sql: ${TABLE}."Voucher_Number" ;;
-  }
-  measure: count {
-    type: count
-  }
 
 }
