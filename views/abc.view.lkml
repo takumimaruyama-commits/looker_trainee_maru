@@ -38,6 +38,14 @@ view: abc{
     ;;
   }
 
+  dimension: Profit {
+    type: number
+  }
+
+  dimension: Sales {
+    type: number
+  }
+
   measure: profit {
     type: sum
     sql: ${TABLE}.profit ;;
@@ -73,10 +81,5 @@ view: abc{
     ELSE 'C'
     END
     ;;
-  }
-
-  measure: product_count {
-    type: count
-    label: "製品数"
   }
 }
