@@ -20,5 +20,4 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 # }
 
 explore: abc{}
-explore: profit_per{}
 explore: trend{}

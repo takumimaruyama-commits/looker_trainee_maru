@@ -32,9 +32,12 @@ view: abc{
     CASE
       WHEN grand_total_sales = 0 THEN 0
       ELSE cumulative_sales / grand_total_sales
-    END AS cumulative_sales_ratio
+    END AS cumulative_sales_ratio,
+    "Product_Name" AS product_name
     FROM
     ordered_sales
+    INNER JOIN "DATA_SETS"."Product_Master"
+      ON product_id = "Product_master"."Product_ID"
     ;;
   }
 
@@ -74,5 +77,10 @@ view: abc{
     ELSE 'C'
     END
     ;;
+  }
+
+  dimension: product_name {
+    type: string
+    sql: ${TABLE}.product_name ;;
   }
 }
