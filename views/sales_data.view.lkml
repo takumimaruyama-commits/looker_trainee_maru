@@ -42,10 +42,10 @@ view: sales_data {
     sql: TO_DATE(${TABLE}."Sales_Date", 'YYYY/M/D') ;;
   }
 
-  dimension: profit_per {
+  measure: profit_per {
     type: number
     value_format: "0.00%"
-    sql: "Gross_Profit" / "Sales" ;;
+    sql: ${gross_profit} / ${sales} ;;
   }
 
 
