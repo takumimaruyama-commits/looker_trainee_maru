@@ -13,13 +13,13 @@ view: trend {
 
   dimension: sales_amount {
     type: number
-    sql: ${TABLE}.sales ;;
+    sql: ${TABLE}."Sales" ;;
     hidden: yes
   }
 
   dimension: profit_amount {
     type: number
-    sql: ${TABLE}.profit ;;
+    sql: ${TABLE}."Gross_Profit" ;;
     hidden: yes
   }
 
