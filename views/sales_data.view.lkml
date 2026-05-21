@@ -44,7 +44,7 @@ view: sales_data {
 
   measure: profit_per {
     type: sum
-    sql: "Grpss_Profit" / "Sales" ;;
+    sql: "Gross_Profit" / "Sales" ;;
   }
 
 
