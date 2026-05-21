@@ -45,7 +45,7 @@ view: sales_data {
   dimension: profit_per {
     type: number
     value_format: "0.00%"
-    sql: SUM("Gross_Profit") / SUM("Sales") ;;
+    sql: "Gross_Profit" / "Sales" ;;
   }
 
 
