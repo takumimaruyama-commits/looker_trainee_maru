@@ -42,7 +42,7 @@ view: plot{
   }
 
   measure: total_sales_amount {
-    type: number
+    type: sum
     label: "製品別総売上"
     sql: ${TABLE}.total_sales ;;
   }
